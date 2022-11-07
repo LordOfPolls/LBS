@@ -6,12 +6,6 @@ from tabulate import tabulate
 
 import samples
 
-import hikari
-
-bot = hikari.GatewayBot(token="token", banner=None, logs=None)
-impl = hikari.impl.EntityFactoryImpl(bot)
-impl.deserialize_message(payload=samples.message())
-
 
 class LBS:
     def __init__(self, *, iterations: int = 500, debug: bool = False):
