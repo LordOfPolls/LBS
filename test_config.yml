@@ -1,0 +1,34 @@
+import:
+    name: import
+    description: Testing import times for {iterations} iterations
+    req_setup: false
+    req_cleanup: true
+    code_key: import
+
+init:
+    name: init
+    description: Testing init times for {iterations} iterations
+    req_setup: true
+    req_cleanup: false
+    code_key: init
+
+message:
+    name: message
+    description: Testing message deserialization times for {iterations} iterations
+    req_setup: true
+    req_cleanup: false
+    code_key: message
+
+message_hard:
+    name: message_hard
+    description: Testing message deserialization times for {iterations} iterations
+    req_setup: true
+    req_cleanup: false
+    code_key: message_hard
+
+guild:
+    name: guild
+    description: Testing guild deserialization times for {iterations} iterations
+    req_setup: true
+    req_cleanup: false
+    code_key: guild

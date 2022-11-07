@@ -1,0 +1,89 @@
+naff:
+  name: NAFF[perf]
+  setup: |
+    import naff
+    bot = naff.Client()
+  import: |
+    import naff
+  init: naff.Client()
+  message: naff.Message.from_dict(samples.message(), bot)
+  message_hard: naff.Message.from_dict(samples.nested_message(), bot)
+  guild: naff.Guild.from_dict(samples.guild(), bot)
+  cleanup: |
+    import sys
+    sys.modules.pop('naff', None)
+
+
+i_py:
+  name: interactions.py
+  setup: |
+      import interactions
+      bot = interactions.Client(token="token")
+  import: import interactions
+  init: interactions.Client(token="token")
+  message: interactions.Message(samples.message())
+  message_hard: interactions.Message(samples.nested_message())
+  guild: interactions.Guild(samples.guild())
+  cleanup: |
+    import sys
+    sys.modules.pop('interactions', None)
+
+d_py:
+    name: discord.py[commands]
+    setup: |
+        import discord
+        from discord.ext import commands
+        bot = commands.Bot(command_prefix='>', intents=discord.Intents())
+    import: import discord
+    init: commands.Bot(command_prefix='>', intents=discord.Intents())
+    message: discord.Message(state=bot._connection, channel=None, data=samples.message())
+    message_hard: discord.Message(state=bot._connection, channel=None, data=samples.nested_message())
+    guild: discord.Guild(state=bot._connection, data=samples.guild())
+    cleanup: |
+      import sys
+      sys.modules.pop('discord', None)
+      sys.modules.pop('commands', None)
+
+hikari:
+    name: hikari
+    setup: |
+        import hikari
+        bot = hikari.GatewayBot(token="token", banner=None, logs=None)
+        impl = hikari.impl.EntityFactoryImpl(bot)
+    import: import hikari
+    init: hikari.GatewayBot(token="token", banner=None, logs=None)
+    message: impl.deserialize_message(payload=samples.message())
+    message_hard: impl.deserialize_message(payload=samples.nested_message())
+    guild: |  # hikari doesn't natively deserialize gateway guilds on receipt, this forces it to
+      temp = impl.deserialize_gateway_guild(payload=samples.guild(), user_id=1)
+      temp.guild()
+      temp.roles()
+      temp.channels()
+      temp.members()
+    cleanup: |
+      import sys
+      sys.modules.pop('hikari', None)
+
+hata:
+    name: hata
+    setup: |
+        import hata
+        bot = hata.Client('token')
+#    import: import hata
+    init: hata.Client('token')
+    message: hata.Message(samples.message())
+    message_hard: hata.Message(samples.nested_message())
+#    cleanup: |
+#      import sys
+#      sys.modules.pop('hata', None)
+#      # hata seems to throw a tantrum if you try to import it twice, need to debug this
+
+#pincer:
+#    name: pincer
+#    setup: |
+#        import pincer
+#        bot = pincer.Bot(token="token")
+#    import: import pincer
+#    init: pincer.Bot(token="token")
+#    message: pincer.objects.UserMessage.from_dict(samples.message())
+### Cant test pincer as it will try and connect to REST as soon as you init it

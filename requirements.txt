@@ -1,0 +1,9 @@
+discord_typings
+git+https://github.com/NAFTeam/NAFF.git@2.x#egg=naff
+discord-py-interactions
+discord.py
+hata
+hikari
+PyYAML
+orjson
+tabulate[widechars]
