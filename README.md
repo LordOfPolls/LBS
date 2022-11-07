@@ -2,7 +2,6 @@
 Please note, this project is in its infancy, and should not be relied on as a comparison tool yet
 
 ### Output
-```
 import:: Testing import times for 500 iterations
 | Library              | Total Time(ms)   | Average Time(µs)   | Difference   |
 |----------------------|------------------|--------------------|--------------|
